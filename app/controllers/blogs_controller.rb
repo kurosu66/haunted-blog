@@ -3,7 +3,7 @@
 class BlogsController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show]
 
-  before_action :set_blog_show, only: %i[show]
+  before_action :set_blog, only: %i[show]
   before_action :set_own_blog, only: %i[edit update destroy]
 
   def index
@@ -44,7 +44,7 @@ class BlogsController < ApplicationController
 
   private
 
-  def set_blog_show
+  def set_blog
     blog = Blog.find(params[:id])
     raise ActiveRecord::RecordNotFound, 'Not Found' if blog.secret? && !blog.owned_by?(current_user)
 
